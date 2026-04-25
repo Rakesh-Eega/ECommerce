@@ -1,0 +1,61 @@
+<div class="auth-container">
+
+  <!-- Left branding panel -->
+  <div class="auth-brand">
+    <div class="brand-logo">◆ ShopX</div>
+    <div class="brand-headline">
+      <h2>Everything<br/>you need,<br/><span>delivered.</span></h2>
+      <p>Millions of products. Lightning fast delivery. Unbeatable prices.</p>
+    </div>
+    <div class="brand-stats">
+      <div class="stat">
+        <div class="stat-number">2M+</div>
+        <div class="stat-label">Products</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">98%</div>
+        <div class="stat-label">Satisfaction</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">24h</div>
+        <div class="stat-label">Delivery</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right form panel -->
+  <div class="auth-form-panel">
+    <div class="auth-header">
+      <span class="auth-tag">Welcome back</span>
+      <h1>Sign in to<br/>your account</h1>
+      <p>Don't have an account? <a routerLink="/auth/register">Create one free</a></p>
+    </div>
+
+    @if (errorMessage()) {
+      <div class="error-banner">{{ errorMessage() }}</div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-field">
+        <label>Email address</label>
+        <input type="email" formControlName="email" placeholder="you@example.com" />
+        @if (form.get('email')?.invalid && form.get('email')?.touched) {
+          <span class="error">Valid email is required</span>
+        }
+      </div>
+
+      <div class="form-field">
+        <label>Password</label>
+        <input type="password" formControlName="password" placeholder="••••••••" />
+        @if (form.get('password')?.invalid && form.get('password')?.touched) {
+          <span class="error">Minimum 8 characters</span>
+        }
+      </div>
+
+      <button type="submit" [disabled]="form.invalid || isLoading()" class="btn-primary">
+        {{ isLoading() ? 'Signing in...' : 'Sign In' }}
+      </button>
+    </form>
+  </div>
+
+</div>

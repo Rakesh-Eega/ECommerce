@@ -1,0 +1,14 @@
+// src/app/features/auth/login/login.component.scss
+@use '../auth-shared' as *;
+
+.auth-container {
+  @extend .auth-container;
+}
+
+.auth-brand {
+  @extend .auth-brand;
+}
+
+.auth-form-panel {
+  @extend .auth-form-panel;
+}

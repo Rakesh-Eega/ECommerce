@@ -1,0 +1,130 @@
+<!-- seller-login.component.html -->
+<div class="seller-layout">
+
+  <!-- Left Panel -->
+  <aside class="seller-aside">
+    <div class="aside-top">
+      <a routerLink="/home" class="aside-logo">◆ ShopX</a>
+      <span class="aside-portal-tag">Seller Portal</span>
+    </div>
+
+    <div class="aside-body">
+      <div class="aside-icon-wrap">
+        <span class="aside-big-icon">🏪</span>
+      </div>
+      <h2 class="aside-headline">
+        Grow your<br/>business with<br/><span>ShopX Sellers</span>
+      </h2>
+      <p class="aside-sub">
+        Access your seller dashboard, manage inventory,
+        track orders and scale your revenue.
+      </p>
+    </div>
+
+    <div class="aside-features">
+      <div class="feature-item">
+        <span class="feature-dot"></span>
+        <span>Real-time order tracking</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-dot"></span>
+        <span>Analytics & revenue reports</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-dot"></span>
+        <span>Bulk inventory management</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-dot"></span>
+        <span>Instant payment settlements</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Right Form Panel -->
+  <main class="seller-form-panel">
+
+    <div class="top-nav">
+      <span class="top-nav-text">New seller?</span>
+      <a routerLink="/auth/seller/register" class="top-nav-link">Create seller account →</a>
+    </div>
+
+    <div class="form-wrap">
+      <div class="form-header">
+        <div class="portal-badge">
+          <span class="portal-dot"></span>
+          Seller Portal
+        </div>
+        <h1>Welcome back,<br/>Seller</h1>
+        <p>Sign in to your seller dashboard</p>
+      </div>
+
+      @if (errorMessage()) {
+        <div class="error-banner">
+          <span class="error-icon">!</span>
+          {{ errorMessage() }}
+        </div>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <div class="field-group">
+          <label class="field-label">Business Email</label>
+          <div class="input-wrap" [class.input-error]="form.get('email')?.invalid && form.get('email')?.touched">
+            <span class="input-icon">✉</span>
+            <input
+              type="email"
+              formControlName="email"
+              placeholder="you@business.com"
+            />
+          </div>
+          @if (form.get('email')?.invalid && form.get('email')?.touched) {
+            <span class="field-error">Valid email is required</span>
+          }
+        </div>
+
+        <div class="field-group">
+          <div class="label-row">
+            <label class="field-label">Password</label>
+            <a href="#" class="forgot-link">Forgot password?</a>
+          </div>
+          <div class="input-wrap" [class.input-error]="form.get('password')?.invalid && form.get('password')?.touched">
+            <span class="input-icon">🔒</span>
+            <input
+              type="password"
+              formControlName="password"
+              placeholder="••••••••"
+            />
+          </div>
+          @if (form.get('password')?.invalid && form.get('password')?.touched) {
+            <span class="field-error">Minimum 8 characters</span>
+          }
+        </div>
+
+        <button
+          type="submit"
+          class="btn-seller-submit"
+          [disabled]="form.invalid || isLoading()"
+        >
+          @if (isLoading()) {
+            <span class="spinner"></span>
+            Signing in...
+          } @else {
+            Sign In to Dashboard
+          }
+        </button>
+
+      </form>
+
+      <div class="divider"><span>or</span></div>
+
+      <div class="alt-links">
+        <a routerLink="/auth/login" class="alt-link">
+          👤 Sign in as Customer instead
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+</div>

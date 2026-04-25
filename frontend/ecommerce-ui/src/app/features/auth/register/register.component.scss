@@ -1,0 +1,14 @@
+// src/app/features/auth/register/register.component.scss
+@use '../auth-shared' as *;
+
+// Register has more fields — tighten spacing slightly
+.auth-form-panel {
+  @extend .auth-form-panel;
+  justify-content: flex-start;
+  padding-top: 3rem;
+}
+
+.form-field {
+  @extend .form-field;
+  margin-bottom: 1rem;
+}

@@ -1,0 +1,36 @@
+/* You can add global styles to this file, and also import other style files */
+// styles.scss
+:root {
+  --color-bg:          #0f0f0f;
+  --color-surface:     #161616;
+  --color-surface-2:   #1e1e1e;
+  --color-border:      #2a2a2a;
+  --color-border-focus:#e8a020;
+  --color-accent:      #e8a020;
+  --color-accent-hover:#f0b340;
+  --color-text-primary:#f0ede8;
+  --color-text-muted:  #888580;
+  --color-error:       #e05252;
+  --color-success:     #4caf7d;
+  --font-display:      'Syne', sans-serif;
+  --font-body:         'DM Sans', sans-serif;
+  --radius-sm:         6px;
+  --radius-md:         10px;
+  --radius-lg:         16px;
+  --transition:        all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+}

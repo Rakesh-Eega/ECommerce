@@ -1,0 +1,354 @@
+<!-- src/app/features/home/home.component.html -->
+
+<!-- ═══════════════════ NAVBAR ═══════════════════ -->
+<header class="navbar">
+  <div class="navbar-inner">
+    <a routerLink="/home" class="nav-logo">◆ ShopX</a>
+
+    <div class="nav-search">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Search for products, brands and more..." />
+      <button class="search-btn">Search</button>
+    </div>
+
+    <nav class="nav-actions">
+      @if (authService.isAuthenticated()) {
+        <div class="nav-user">
+          <span class="user-avatar">
+            {{ authService.currentUser()?.firstName?.charAt(0) }}
+          </span>
+          <span class="user-name">{{ authService.currentUser()?.firstName }}</span>
+        </div>
+
+        @if (authService.isSeller()) {
+          <a routerLink="/seller/dashboard" class="nav-icon-btn" title="Seller Dashboard">
+            <span>🏪</span>
+            <span class="nav-label">Dashboard</span>
+          </a>
+        }
+
+        @if (authService.isAdmin()) {
+          <a routerLink="/admin" class="nav-icon-btn" title="Admin Panel">
+            <span>⚙️</span>
+            <span class="nav-label">Admin</span>
+          </a>
+        }
+
+        <a routerLink="/orders" class="nav-icon-btn" title="Orders">
+          <span>📦</span>
+          <span class="nav-label">Orders</span>
+        </a>
+
+        <button class="nav-icon-btn" (click)="authService.logout()" title="Logout">
+          <span>🚪</span>
+          <span class="nav-label">Logout</span>
+        </button>
+
+      } @else {
+        <!-- Customer Auth -->
+        <a routerLink="/auth/login" class="btn-nav-outline">Sign In</a>
+        <a routerLink="/auth/register" class="btn-nav-solid">Register</a>
+
+        <!-- Seller CTA -->
+        <div class="nav-divider"></div>
+        <a routerLink="/auth/seller/login" class="btn-nav-seller">
+          <span>🏪</span> Seller Login
+        </a>
+      }
+
+      <button class="nav-cart-btn">
+        <span>🛒</span>
+        <span class="cart-badge">3</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Category nav strip -->
+  <div class="nav-strip">
+    <div class="nav-strip-inner">
+      <a href="#" class="strip-link">All Categories</a>
+      <a href="#" class="strip-link">Electronics</a>
+      <a href="#" class="strip-link">Fashion</a>
+      <a href="#" class="strip-link">Home & Living</a>
+      <a href="#" class="strip-link">Beauty</a>
+      <a href="#" class="strip-link">Sports</a>
+      <a href="#" class="strip-link">Books</a>
+      <a routerLink="/auth/seller/register" class="strip-link seller-strip-link">
+        🚀 Become a Seller
+      </a>
+      <a href="#" class="strip-link accent">Today's Deals 🔥</a>
+    </div>
+  </div>
+</header>
+
+<main class="home-main">
+
+  <!-- ═══════════════════ HERO ═══════════════════ -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-tag">🔥 Limited Time — Up to 70% Off</div>
+      <h1 class="hero-title">
+        Shop Smarter.<br/>
+        <span class="hero-accent">Save Bigger.</span>
+      </h1>
+      <p class="hero-sub">
+        Millions of products. Verified sellers.<br/>
+        Lightning-fast delivery across India.
+      </p>
+      <div class="hero-actions">
+        <a routerLink="/products" class="btn-hero-primary">Explore Now</a>
+        <a href="#deals" class="btn-hero-ghost">View Deals</a>
+      </div>
+      <div class="hero-trust">
+        <span>✓ Free returns</span>
+        <span>✓ Secure payments</span>
+        <span>✓ 24h delivery</span>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-card floating">
+        <div class="hc-icon">📱</div>
+        <div class="hc-info">
+          <span class="hc-name">iPhone 15 Pro</span>
+          <span class="hc-price">₹89,999</span>
+        </div>
+        <div class="hc-badge">-20%</div>
+      </div>
+      <div class="hero-card floating delay-1">
+        <div class="hc-icon">💻</div>
+        <div class="hc-info">
+          <span class="hc-name">MacBook Air M3</span>
+          <span class="hc-price">₹1,14,900</span>
+        </div>
+        <div class="hc-badge">New</div>
+      </div>
+      <div class="hero-card floating delay-2">
+        <div class="hc-icon">🎧</div>
+        <div class="hc-info">
+          <span class="hc-name">Sony WH-1000XM5</span>
+          <span class="hc-price">₹24,990</span>
+        </div>
+        <div class="hc-badge">-40%</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ STATS BAR ═══════════════════ -->
+  <section class="stats-bar">
+    <div class="stat-item">
+      <span class="stat-num">2M+</span>
+      <span class="stat-lbl">Products</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-num">50K+</span>
+      <span class="stat-lbl">Verified Sellers</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-num">10M+</span>
+      <span class="stat-lbl">Happy Customers</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-num">24h</span>
+      <span class="stat-lbl">Fast Delivery</span>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ CATEGORIES ═══════════════════ -->
+  <section class="section">
+    <div class="section-header">
+      <div>
+        <p class="section-tag">Browse by</p>
+        <h2 class="section-title">Shop Categories</h2>
+      </div>
+      <a href="#" class="see-all-link">See all →</a>
+    </div>
+
+    <div class="categories-grid">
+      @for (cat of categories; track cat.label) {
+        <a href="#" class="category-card">
+          <span class="cat-icon">{{ cat.icon }}</span>
+          <span class="cat-label">{{ cat.label }}</span>
+          <span class="cat-count">{{ cat.count }}</span>
+        </a>
+      }
+    </div>
+  </section>
+
+  <!-- ═══════════════════ DEALS BANNER ═══════════════════ -->
+  <section class="deals-banner" id="deals">
+    <div class="deals-left">
+      <span class="deals-tag">⚡ Flash Sale</span>
+      <h2>Today's Best Deals</h2>
+      <p>Prices drop every hour. Don't miss out.</p>
+      <div class="countdown">
+        <div class="cd-block"><span class="cd-num">08</span><span class="cd-lbl">HRS</span></div>
+        <span class="cd-sep">:</span>
+        <div class="cd-block"><span class="cd-num">24</span><span class="cd-lbl">MIN</span></div>
+        <span class="cd-sep">:</span>
+        <div class="cd-block"><span class="cd-num">37</span><span class="cd-lbl">SEC</span></div>
+      </div>
+      <a href="#" class="btn-deals">Shop Flash Sale</a>
+    </div>
+    <div class="deals-right">
+      <div class="deal-pill">📱 Phones — Up to 35% off</div>
+      <div class="deal-pill accent">💻 Laptops — Up to 25% off</div>
+      <div class="deal-pill">🎧 Audio — Up to 50% off</div>
+      <div class="deal-pill accent">⌚ Wearables — Up to 40% off</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ FEATURED PRODUCTS ═══════════════════ -->
+  <section class="section">
+    <div class="section-header">
+      <div>
+        <p class="section-tag">Hand-picked for you</p>
+        <h2 class="section-title">Featured Products</h2>
+      </div>
+      <a routerLink="/products" class="see-all-link">View all →</a>
+    </div>
+
+    <div class="products-grid">
+      @for (product of featuredProducts; track product.name) {
+        <div class="product-card">
+          @if (product.badge) {
+            <span class="product-badge" [class.badge-accent]="product.badge === 'Hot Deal' || product.badge === 'Sale'">
+              {{ product.badge }}
+            </span>
+          }
+          <div class="product-image">
+            <span class="product-emoji">{{ product.image }}</span>
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">{{ product.name }}</h3>
+            <div class="product-rating">
+              <span class="stars">★★★★★</span>
+              <span class="rating-num">{{ product.rating }}</span>
+              <span class="review-count">({{ product.reviews | number }})</span>
+            </div>
+            <div class="product-pricing">
+              <span class="price-current">₹{{ product.price | number }}</span>
+              <span class="price-original">₹{{ product.originalPrice | number }}</span>
+              <span class="price-discount">-{{ getDiscount(product.price, product.originalPrice) }}%</span>
+            </div>
+            <button class="btn-add-cart">Add to Cart</button>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- ═══════════════════ TRUST STRIP ═══════════════════ -->
+  <section class="trust-strip">
+    <div class="trust-item">
+      <span class="trust-icon">🚚</span>
+      <div>
+        <strong>Free Delivery</strong>
+        <p>On orders above ₹499</p>
+      </div>
+    </div>
+    <div class="trust-item">
+      <span class="trust-icon">🔄</span>
+      <div>
+        <strong>Easy Returns</strong>
+        <p>30-day hassle-free returns</p>
+      </div>
+    </div>
+    <div class="trust-item">
+      <span class="trust-icon">🔒</span>
+      <div>
+        <strong>Secure Payments</strong>
+        <p>100% protected checkout</p>
+      </div>
+    </div>
+    <div class="trust-item">
+      <span class="trust-icon">🎯</span>
+      <div>
+        <strong>Best Price</strong>
+        <p>Guaranteed lowest prices</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+
+    <div class="footer-brand">
+      <div class="footer-logo">◆ ShopX</div>
+      <p>India's most trusted ecommerce platform. Shop from millions of
+         products with confidence.</p>
+
+      <!-- Seller CTA in footer -->
+      <a routerLink="/auth/seller/register" class="footer-seller-cta">
+        <span>🚀</span>
+        <div>
+          <strong>Become a Seller</strong>
+          <span>Join 50,000+ sellers on ShopX</span>
+        </div>
+        <span class="cta-arrow">→</span>
+      </a>
+    </div>
+
+    <div class="footer-links">
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About Us</a>
+        <a href="#">Careers</a>
+        <a href="#">Press</a>
+        <a href="#">Blog</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Help</h4>
+        <a href="#">Contact Us</a>
+        <a href="#">FAQs</a>
+        <a href="#">Shipping</a>
+        <a href="#">Returns</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Sell on ShopX</h4>
+        <a routerLink="/auth/seller/register">Start Selling</a>
+        <a routerLink="/auth/seller/login">Seller Login</a>
+        <a href="#">Seller Hub</a>
+        <a href="#">Seller Policies</a>
+        <a href="#">Advertise</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Account</h4>
+        <a routerLink="/auth/login">Customer Login</a>
+        <a routerLink="/auth/register">Register</a>
+        <a routerLink="/orders">My Orders</a>
+        <a href="#">Wishlist</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Seller banner above footer bottom -->
+  <div class="footer-seller-strip">
+    <div class="footer-seller-strip-inner">
+      <span class="strip-badge">🏪 Seller Portal</span>
+      <span class="strip-text">
+        Already a seller?
+        <a routerLink="/auth/seller/login">Sign in to your dashboard →</a>
+      </span>
+      <span class="strip-text">
+        New here?
+        <a routerLink="/auth/seller/register">Create a seller account →</a>
+      </span>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2025 ShopX. All rights reserved.</span>
+    <span>Privacy Policy · Terms of Service · Seller Agreement</span>
+  </div>
+</footer>

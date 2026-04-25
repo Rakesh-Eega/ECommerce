@@ -1,0 +1,90 @@
+<div class="auth-container">
+
+  <!-- Left branding panel -->
+  <div class="auth-brand">
+    <div class="brand-logo">◆ ShopX</div>
+    <div class="brand-headline">
+      <h2>Join<br/>millions of<br/><span>shoppers.</span></h2>
+      <p>Create your account and start shopping from thousands of verified sellers.</p>
+    </div>
+    <div class="brand-stats">
+      <div class="stat">
+        <div class="stat-number">50K+</div>
+        <div class="stat-label">Sellers</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">Free</div>
+        <div class="stat-label">Returns</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">SSL</div>
+        <div class="stat-label">Secured</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right form panel -->
+  <div class="auth-form-panel">
+    <div class="auth-header">
+      <span class="auth-tag">Get started</span>
+      <h1>Create your<br/>account</h1>
+      <p>Already have an account? <a routerLink="/auth/login">Sign in</a></p>
+    </div>
+
+    @if (errorMessage()) {
+      <div class="error-banner">{{ errorMessage() }}</div>
+    }
+
+    @if (successMessage()) {
+      <div class="success-banner">{{ successMessage() }}</div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="form-field">
+          <label>First Name</label>
+          <input type="text" formControlName="firstName" placeholder="John" />
+          @if (form.get('firstName')?.invalid && form.get('firstName')?.touched) {
+            <span class="error">Required</span>
+          }
+        </div>
+        <div class="form-field">
+          <label>Last Name</label>
+          <input type="text" formControlName="lastName" placeholder="Doe" />
+          @if (form.get('lastName')?.invalid && form.get('lastName')?.touched) {
+            <span class="error">Required</span>
+          }
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label>Email address</label>
+        <input type="email" formControlName="email" placeholder="you@example.com" />
+        @if (form.get('email')?.invalid && form.get('email')?.touched) {
+          <span class="error">Valid email is required</span>
+        }
+      </div>
+
+      <div class="form-field">
+        <label>Password</label>
+        <input type="password" formControlName="password" placeholder="Min 8 chars, 1 uppercase, 1 number, 1 special" />
+        @if (form.get('password')?.invalid && form.get('password')?.touched) {
+          <span class="error">Min 8 chars · 1 uppercase · 1 number · 1 special character</span>
+        }
+      </div>
+
+      <div class="form-field">
+        <label>Confirm Password</label>
+        <input type="password" formControlName="confirmPassword" placeholder="••••••••" />
+        @if (form.errors?.['passwordMismatch'] && form.get('confirmPassword')?.touched) {
+          <span class="error">Passwords do not match</span>
+        }
+      </div>
+
+      <button type="submit" [disabled]="form.invalid || isLoading()" class="btn-primary">
+        {{ isLoading() ? 'Creating Account...' : 'Create Account' }}
+      </button>
+    </form>
+  </div>
+
+</div>

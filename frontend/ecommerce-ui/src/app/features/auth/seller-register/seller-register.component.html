@@ -1,0 +1,220 @@
+<!-- seller-register.component.html -->
+<div class="seller-layout">
+
+  <!-- Left Aside -->
+  <aside class="seller-aside">
+    <div class="aside-top">
+      <a routerLink="/home" class="aside-logo">◆ ShopX</a>
+      <span class="aside-portal-tag">Seller Portal</span>
+    </div>
+
+    <div class="aside-body">
+      <div class="aside-icon-wrap">
+        <span class="aside-big-icon">🚀</span>
+      </div>
+      <h2 class="aside-headline">
+        Start selling<br/>to millions of<br/><span>customers today</span>
+      </h2>
+      <p class="aside-sub">
+        Join 50,000+ sellers already growing their business
+        on ShopX. Setup takes less than 5 minutes.
+      </p>
+    </div>
+
+    <!-- Step progress on aside -->
+    <div class="aside-steps">
+      <div class="aside-step" [class.active]="currentStep() >= 1" [class.done]="currentStep() > 1">
+        <span class="step-num">1</span>
+        <div>
+          <strong>Personal Details</strong>
+          <span>Name, email & phone</span>
+        </div>
+      </div>
+      <div class="step-connector"></div>
+      <div class="aside-step" [class.active]="currentStep() >= 2">
+        <span class="step-num">2</span>
+        <div>
+          <strong>Business Details</strong>
+          <span>Store & security</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Right Form Panel -->
+  <main class="seller-form-panel">
+
+    <div class="top-nav">
+      <span class="top-nav-text">Already a seller?</span>
+      <a routerLink="/auth/seller/login" class="top-nav-link">Sign in →</a>
+    </div>
+
+    <div class="form-wrap">
+
+      <div class="form-header">
+        <div class="portal-badge">
+          <span class="portal-dot"></span>
+          Step {{ currentStep() }} of 2
+        </div>
+        @if (currentStep() === 1) {
+          <h1>Create your<br/>seller account</h1>
+          <p>Start with your personal information</p>
+        } @else {
+          <h1>Business<br/>details</h1>
+          <p>Almost there — just a few more details</p>
+        }
+      </div>
+
+      @if (errorMessage()) {
+        <div class="error-banner">
+          <span class="error-icon">!</span>
+          {{ errorMessage() }}
+        </div>
+      }
+
+      @if (successMessage()) {
+        <div class="success-banner">✓ {{ successMessage() }}</div>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <!-- STEP 1 -->
+        @if (currentStep() === 1) {
+          <div class="step-fields">
+            <div class="form-row">
+              <div class="field-group">
+                <label class="field-label">First Name</label>
+                <div class="input-wrap" [class.input-error]="form.get('firstName')?.invalid && form.get('firstName')?.touched">
+                  <input type="text" formControlName="firstName" placeholder="John" />
+                </div>
+                @if (form.get('firstName')?.invalid && form.get('firstName')?.touched) {
+                  <span class="field-error">Required</span>
+                }
+              </div>
+
+              <div class="field-group">
+                <label class="field-label">Last Name</label>
+                <div class="input-wrap" [class.input-error]="form.get('lastName')?.invalid && form.get('lastName')?.touched">
+                  <input type="text" formControlName="lastName" placeholder="Doe" />
+                </div>
+                @if (form.get('lastName')?.invalid && form.get('lastName')?.touched) {
+                  <span class="field-error">Required</span>
+                }
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label">Business Email</label>
+              <div class="input-wrap" [class.input-error]="form.get('email')?.invalid && form.get('email')?.touched">
+                <span class="input-icon">✉</span>
+                <input type="email" formControlName="email" placeholder="you@business.com" />
+              </div>
+              @if (form.get('email')?.invalid && form.get('email')?.touched) {
+                <span class="field-error">Valid email is required</span>
+              }
+            </div>
+
+            <div class="field-group">
+              <label class="field-label">Phone Number</label>
+              <div class="input-wrap" [class.input-error]="form.get('phone')?.invalid && form.get('phone')?.touched">
+                <span class="input-icon prefix">+91</span>
+                <input type="tel" formControlName="phone" placeholder="9876543210" />
+              </div>
+              @if (form.get('phone')?.invalid && form.get('phone')?.touched) {
+                <span class="field-error">Valid 10-digit Indian mobile number required</span>
+              }
+            </div>
+
+            <button type="button" class="btn-seller-submit" (click)="nextStep()">
+              Continue to Business Details →
+            </button>
+          </div>
+        }
+
+        <!-- STEP 2 -->
+        @if (currentStep() === 2) {
+          <div class="step-fields">
+
+            <div class="field-group">
+              <label class="field-label">Business / Store Name</label>
+              <div class="input-wrap" [class.input-error]="form.get('businessName')?.invalid && form.get('businessName')?.touched">
+                <span class="input-icon">🏪</span>
+                <input type="text" formControlName="businessName" placeholder="Your Store Name" />
+              </div>
+              @if (form.get('businessName')?.invalid && form.get('businessName')?.touched) {
+                <span class="field-error">Business name is required</span>
+              }
+            </div>
+
+            <div class="field-group">
+              <label class="field-label">
+                GSTIN
+                <span class="optional-tag">Optional</span>
+              </label>
+              <div class="input-wrap" [class.input-error]="form.get('gstin')?.invalid && form.get('gstin')?.touched">
+                <input
+                  type="text"
+                  formControlName="gstin"
+                  placeholder="22AAAAA0000A1Z5"
+                  style="text-transform: uppercase"
+                />
+              </div>
+              @if (form.get('gstin')?.invalid && form.get('gstin')?.touched) {
+                <span class="field-error">Invalid GSTIN format</span>
+              }
+            </div>
+
+            <div class="field-group">
+              <label class="field-label">Password</label>
+              <div class="input-wrap" [class.input-error]="form.get('password')?.invalid && form.get('password')?.touched">
+                <span class="input-icon">🔒</span>
+                <input type="password" formControlName="password" placeholder="Min 8 chars, 1 uppercase, 1 number, 1 special" />
+              </div>
+              @if (form.get('password')?.invalid && form.get('password')?.touched) {
+                <span class="field-error">Min 8 chars · 1 uppercase · 1 number · 1 special character</span>
+              }
+            </div>
+
+            <div class="field-group">
+              <label class="field-label">Confirm Password</label>
+              <div class="input-wrap" [class.input-error]="form.errors?.['passwordMismatch'] && form.get('confirmPassword')?.touched">
+                <span class="input-icon">🔒</span>
+                <input type="password" formControlName="confirmPassword" placeholder="••••••••" />
+              </div>
+              @if (form.errors?.['passwordMismatch'] && form.get('confirmPassword')?.touched) {
+                <span class="field-error">Passwords do not match</span>
+              }
+            </div>
+
+            <div class="btn-row">
+              <button type="button" class="btn-seller-back" (click)="prevStep()">
+                ← Back
+              </button>
+              <button
+                type="submit"
+                class="btn-seller-submit flex-1"
+                [disabled]="form.invalid || isLoading()"
+              >
+                @if (isLoading()) {
+                  <span class="spinner"></span>
+                  Creating Account...
+                } @else {
+                  Create Seller Account
+                }
+              </button>
+            </div>
+
+          </div>
+        }
+
+      </form>
+
+      <p class="terms-text">
+        By registering, you agree to ShopX's
+        <a href="#">Seller Terms</a> and <a href="#">Privacy Policy</a>
+      </p>
+
+    </div>
+  </main>
+
+</div>
