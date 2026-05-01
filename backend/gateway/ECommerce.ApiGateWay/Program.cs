@@ -84,7 +84,7 @@ app.UseRateLimiter();
 
 app.MapReverseProxy();
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 

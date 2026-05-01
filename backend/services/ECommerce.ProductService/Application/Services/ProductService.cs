@@ -16,6 +16,7 @@ public interface IProductService
     Task<SearchResultDto> SearchAsync(ProductSearchQuery query);
     Task<(bool Success, string? Error)> ApproveAsync(Guid productId);
     Task<(bool Success, string? Error)> UpdateStockAsync(UpdateStockRequest request);
+    Task<int> ReIndexAllProductsAsync();
 }
 
 public class ProductService : IProductService
@@ -184,4 +185,32 @@ public class ProductService : IProductService
         PrimaryImage = p.Images.FirstOrDefault(i => i.IsPrimary)?.Url,
         CreatedAt = p.CreatedAt
     };
+
+    public async Task<int> ReIndexAllProductsAsync()
+    {
+        var products = await _db.Products
+            .Include(p => p.Category)
+            .Include(p => p.Variants)
+            .Include(p => p.Images)
+            .Where(p => p.IsApproved && p.IsActive)
+            .ToListAsync();
+
+        if (!products.Any())
+        {
+            _logger.LogWarning("No approved products found to index.");
+            return 0;
+        }
+
+        int count = 0;
+        foreach (var product in products)
+        {
+            await _search.IndexProductAsync(MapToDocument(product));
+            count++;
+        }
+
+        _logger.LogInformation(
+            "✅ Indexed {Count} products into Elasticsearch.", count);
+
+        return count;
+    }
 }

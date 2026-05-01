@@ -34,6 +34,7 @@ public class ElasticsearchService : IElasticsearchService
                 .Properties(p => p
                     .Text(t => t.Name(n => n.Name).Analyzer("standard"))
                     .Text(t => t.Name(n => n.Description).Analyzer("standard"))
+                    .Text(t => t.Name(n => n.Slug).Analyzer("standard"))
                     .Keyword(k => k.Name(n => n.Brand))
                     .Keyword(k => k.Name(n => n.Category))
                     .Number(n => n.Name(nn => nn.MinPrice).Type(NumberType.Double))
@@ -78,14 +79,15 @@ public class ElasticsearchService : IElasticsearchService
                     if (!string.IsNullOrWhiteSpace(query.SearchTerm))
                     {
                         mustClauses.Add(q.MultiMatch(mm => mm
-                            .Fields(f => f
-                                .Field(p => p.Name, boost: 3)
-                                .Field(p => p.Brand, boost: 2)
-                                .Field(p => p.Description))
-                            .Query(query.SearchTerm)
-                            .Type(TextQueryType.BestFields)
-                            .Fuzziness(Fuzziness.Auto)
-                        ));
+    .Fields(f => f
+        .Field(p => p.Name, boost: 3)
+        .Field(p => p.Brand, boost: 2)
+        .Field(p => p.Description)
+        .Field(p => p.Slug, boost: 1)) // ← add slug
+    .Query(query.SearchTerm)
+    .Type(TextQueryType.BestFields)
+    .Fuzziness(Fuzziness.Auto)
+));
                     }
 
                     // Always filter to active + approved

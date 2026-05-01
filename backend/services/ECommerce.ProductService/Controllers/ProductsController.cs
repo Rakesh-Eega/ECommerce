@@ -124,6 +124,15 @@ public class ProductsController : ControllerBase
             new { slug = product!.Slug }, product);
     }
 
+    /// POST /api/products/admin/reindex
+    [HttpPost("admin/reindex")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> ReindexAll()
+    {
+        var count = await _productService.ReIndexAllProductsAsync();
+        return Ok(new { message = $"Reindexed {count} products successfully." });
+    }
+
     /// PUT /api/products/{productId}
     [HttpPut("{productId:guid}")]
     [Authorize(Roles = "Seller,Admin")]

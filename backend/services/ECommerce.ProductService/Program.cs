@@ -53,6 +53,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ProductDataSeeder>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -68,7 +69,9 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ProductDbContext>();
+    var seeder = scope.ServiceProvider.GetRequiredService<ProductDataSeeder>();
     db.Database.Migrate();
+    await seeder.SeedAsync();
 }
 
 app.UseSerilogRequestLogging();

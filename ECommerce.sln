@@ -26,8 +26,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.PaymentService", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.ProductService", "backend\services\ECommerce.ProductService\ECommerce.ProductService.csproj", "{8E1B6BC8-3C8D-CB1E-6B40-59861CF6BB47}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "frontend", "frontend", "{F6207AA1-B9A5-4643-ACC2-352171F79E70}"
-EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "ecommerce-ui(1)", "frontend\ecommerce-ui\", "{EBCEA5CA-9935-71D6-A2BE-15CE1FBF824A}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
@@ -48,6 +46,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "ecommerce-ui(1)", "frontend
 		VWDPort = "55466"
 		SlnRelativePath = "frontend\ecommerce-ui\"
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "frontend", "frontend", "{F6207AA1-B9A5-4643-ACC2-352171F79E70}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
